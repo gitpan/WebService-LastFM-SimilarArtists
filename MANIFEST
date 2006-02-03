@@ -1,0 +1,9 @@
+MANIFEST
+README
+LICENSE
+Changes
+Makefile.PL
+lib/WebService/LastFM/SimilarArtists.pm
+t/001_load.t
+t/002_online_query.t
+META.yml                                 Module meta-data (added by MakeMaker)
