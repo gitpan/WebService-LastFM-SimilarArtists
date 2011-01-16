@@ -3,18 +3,18 @@ use strict;
 use Cache::File;
 use Carp;
 use File::Path qw/mkpath/;
-use LWP::Simple;
+use LWP::Simple qw(get $ua);
 use URI::Escape;
 use XML::Simple;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
    my ($class, %parameters) = @_;
 
    my $self = bless ({}, ref ($class) || $class);
    my %options = (
-      min_match  => 75,
+      min_match  => 0.75,
       cache_time => '1 week',
       cache_dir  => '/tmp/lastfm.cache',
       %parameters,
@@ -26,7 +26,7 @@ sub new {
    if(!-d $self->{'_options'}->{'cache_dir'}) {
       eval { mkpath($self->{'_options'}->{'cache_dir'}) };
       if($@) {
-	 Carp::croak("Couldn't create $self->{'_options'}->{'cache_dir'}:$@");
+     Carp::croak("Couldn't create $self->{'_options'}->{'cache_dir'}:$@");
       }
    }
 
@@ -40,7 +40,7 @@ sub lookup {
       Carp::croak('No name supplied!');
       return;
    }
-   
+
    my $cache = new Cache::File (
       cache_root => $self->{'_options'}->{'cache_dir'},
    );
@@ -53,9 +53,9 @@ sub lookup {
 
    unless(@info) {
       my $data = get(sprintf("%s/%s/%s",
-	             'http://ws.audioscrobbler.com/1.0/artist',
+                 'http://ws.audioscrobbler.com/1.0/artist',
                       uri_escape($name),
-	             'similar.xml')
+                 'similar.xml')
                  );
       if($data) {
          my $xs   = new XML::Simple();
@@ -63,9 +63,9 @@ sub lookup {
 
          if(ref $x->{'artist'} eq 'ARRAY') {
             foreach my $item (@{$x->{'artist'}}) {
-	       next unless ref $item eq 'HASH';
-               push @info, $item
-	          if($item->{'match'} >= $self->{'_options'}->{'min_match'});
+                next unless ref $item eq 'HASH';
+                push @info, $item
+                   if($item->{'match'} >= $self->{'_options'}->{'min_match'});
             }
             $cache->freeze($filename, \@info, 
                            $self->{'_options'}->{'cache_time'});
@@ -91,8 +91,8 @@ information from audioscrobbler.net / last.fm
 
   my $sa = WebService::LastFM::SimilarArtists->new(
               minmatch => 85,
-	      cache_time => '1 week',
-	      cache_dir  => '/var/cache/lastfm'
+          cache_time => '1 week',
+          cache_dir  => '/var/cache/lastfm'
            );
   my @artists = $sa->lookup('Hate Forest');
 
@@ -122,7 +122,7 @@ using the configuration passed to it.
 =item min_match
 
 Specifies the minimal similarity match count that should be returned.
-Defaults to C<75>.
+Defaults to C<0.75>.
 
 =item cache_time
 
@@ -223,7 +223,7 @@ more licensing information.
 
 =item * L<Cache::File>, L<LWP::Simple>, L<URI::Escape>, L<XML::Simple>
 
-=item * L<WebServices::LastFM>
+=item * L<WebService::LastFM>
 
 =back
 
