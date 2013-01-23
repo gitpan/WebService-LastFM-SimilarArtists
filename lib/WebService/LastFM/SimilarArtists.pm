@@ -7,7 +7,7 @@ use LWP::Simple qw(get $ua);
 use URI::Escape;
 use XML::Simple;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
    my ($class, %parameters) = @_;

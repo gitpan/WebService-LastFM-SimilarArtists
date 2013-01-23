@@ -1,5 +1,9 @@
 Revision history for Perl module WebService::LastFM::SimilarArtists
 
+0.03 Wed Jan 23 2013
+    - Drudkh wasn't matching Hate Forest anymore which broke
+      a test. This release is solely to make the test happy.
+
 0.02 Sun Jan 16 2011
     - set default min_match to 0.75
 

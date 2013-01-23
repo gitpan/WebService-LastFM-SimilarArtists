@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               WebService-LastFM-SimilarArtists
-version:            0.02
+version:            0.03
 abstract:           Module to retrieve Related Artist information from audioscrobbler.net (last.fm)
 author:
     - M. Blom (blom@cpan.org)
@@ -22,7 +22,7 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4
